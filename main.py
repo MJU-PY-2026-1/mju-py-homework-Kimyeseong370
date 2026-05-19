@@ -1,53 +1,89 @@
-# 파일이름 :60252667_김예성 2차과제
+# 파일이름 :60252667_김예성 3차과제
 # 작 성 자 :김예성
 names = []
 moneys = []
 rates = []
 profits = []
 
-total_money = 0
 total_profit = 0
 
-count = int(input("몇 개의 투자를 입력하시겠습니까? "))
+def calc_profit(money,rate):
+    profit= money * rate /100
+    return profit
 
-for i in range(count) :
-    print(f"\n[{i+1}번째 투자 입력]")
+def add_invest():
+    global total_profit
 
-    name = input("이름: ")
-    money = int(input("투자금: "))
-    rate = float(input("수익률(%): "))
+    print("\n[투자 추가]")
+    name=input("투자 이름 입력: ")
+    money=int(input("투자 금액 입력: "))
+    rate=float(input("수익률 입력: "))
 
-    profit = money * (rate/100)
-    
+    profit = calc_profit(money,rate)
+
     names.append(name)
     moneys.append(money)
     rates.append(rate)
     profits.append(profit)
 
-    total_money+= money
-    total_profit += profit
+    total_profit +=profit
 
-print("\n=====투자결과=====")
+    print("\n투자 정보가 저장되었습니다!")
+    print(f"예상 수익 : {profit:.1f}원")
 
-for i in range(len(names)) :
-    if profits[i] >0 :
-        status ="수익"
-    elif profits[i] < 0:
-        status = "손실"
+def show_invest():
+    print("\n[투자 조회]")
+
+    if len(names) == 0:
+        print("저장된 투자 정보가 없습니다")
+        return
+    
+    for i in range(len(names)):
+        print(f"\n[{i+1}번째 투자]")
+        
+        print(f"투자 이름 : {names[i]}")
+        print(f"투자 금액 : {moneys[i]}원")
+        print(f"수익률 : {rates[i]}%")
+        print(f"예상 수익 : {profits[i]}원")
+
+def analyze_invest():
+     print("\n[투자 분석]")
+
+     if len(profits) == 0:
+        print("분석할 투자 정보가 없습니다.")
+        return
+
+     max_profit = max(profits)
+     index = profits.index(max_profit)
+
+     print(f"총 예상 수익 : {total_profit:.1f}원")
+     print(f"최고 수익 투자 : {names[index]}")
+     print(f"최고 수익 금액 : {max_profit:.1f}원")
+
+while True:
+
+    print("\n=======================")
+    print("대학생투자관리 프로그램")
+    print("=======================")
+    print("1.투자 추가")
+    print("2.투자 조회")
+    print("3.투자 분석")
+    print("4.종료")
+
+    menu = input("메뉴 선택 : ")
+
+    if menu == "1":
+        add_invest()
+
+    elif menu == "2":
+        show_invest()
+    elif menu == "3":
+        analyze_invest()
+    elif menu == "4":
+        print("프로그램을 종료합니다")
+        break
     else:
-        status = "유지"
-
-    print(f"{names[i]} -> 수익:{int(profits[i])}원 ({status})")
-
-if len(profits) > 0 and total_profit !=0:
-    avg_profit = total_profit / len(profits)
-else:
-    avg_profit = 0
-
-print("\n====전체 요약====")
-print(f"총 투자금:{total_money}원")
-print(f"총 수익:{int(total_profit)}원")
-print(f"평균 수익:{int(avg_profit)}원")   
+        print("\n잘못된 입력입니다.")
 
 
 
